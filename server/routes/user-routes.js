@@ -13,6 +13,7 @@ router.get("/users", (req, res) => {
   const params = {
     TableName: table,
   };
+  // Scan return all items in the table
   dynamodb.scan(params, (err, data) => {
     if (err) {
       res.status(500).json(err); // an error occurred
@@ -37,6 +38,7 @@ router.get("/users/:username", (req, res) => {
       ":user": req.params.username,
     },
     ProjectionExpression: "#th, #ca",
+    ScanIndexForward: false,
   };
 
   dynamodb.query(params, (err, data) => {
@@ -48,7 +50,7 @@ router.get("/users/:username", (req, res) => {
       res.json(data.Items);
     }
   });
-});
+}); // closes the route for router.get(users/:username)
 
 // Create new user
 router.post("/users", (req, res) => {
@@ -68,7 +70,7 @@ router.post("/users", (req, res) => {
       );
       res.status(500).json(err); // an error occurred
     } else {
-      console.log("Added item:", JSON.stringify(data));
+      console.log("Added item:", JSON.stringify(data, null, 2));
       res.json({ Added: JSON.stringify(data, null, 2) });
     }
   });
