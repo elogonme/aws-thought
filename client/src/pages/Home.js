@@ -24,7 +24,7 @@ const Home = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [thoughts]);
 
   return (
     <main>
